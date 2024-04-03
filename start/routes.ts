@@ -14,7 +14,12 @@ router.get('/', () => {
   return { apiStudyNest: 'online' }
 })
 
-router.group(() => {
-  router.get('/user', [UsersController, 'index'])
-  router.post('/user', [UsersController, 'store'])
-})
+router
+  .group(() => {
+    router.get('', [UsersController, 'index'])
+    router.get('/:userId', [UsersController, 'show'])
+    router.post('/', [UsersController, 'store'])
+    router.put('/:userId', [UsersController, 'update'])
+    router.delete('/:userId', [UsersController, 'destroy'])
+  })
+  .prefix('user')
