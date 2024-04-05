@@ -1,3 +1,4 @@
+import AccessLog from '#models/access_log'
 import Course from '#models/course'
 import User from '#models/user'
 import { createCourseValidator, updateCourseValidator } from '#validators/course'
@@ -26,6 +27,8 @@ export default class CoursesController {
         })
         .andWhere('id', params.courseId)
         .firstOrFail()
+
+      await AccessLog.create({ userId: user.id, courseId: course.id })
 
       return response.ok(course)
     } catch (error) {

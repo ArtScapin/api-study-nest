@@ -1,3 +1,4 @@
+import AccessLog from '#models/access_log'
 import Lesson from '#models/lesson'
 import Course from '#models/course'
 import User from '#models/user'
@@ -35,6 +36,8 @@ export default class LessonsController {
         .where('id', params.lessonId)
         .andWhere('courseId', course.id)
         .firstOrFail()
+
+      await AccessLog.create({ userId: user.id, courseId: course.id, lessonId: lesson.id })
 
       return response.ok(lesson)
     } catch (error) {
