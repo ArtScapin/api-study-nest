@@ -11,6 +11,7 @@ const UsersController = () => import('#controllers/users_controller')
 const SessionController = () => import('#controllers/session_controller')
 const CoursesController = () => import('#controllers/courses_controller')
 const LessonsController = () => import('#controllers/lessons_controller')
+const CategoriesController = () => import('#controllers/categories_controller')
 import router from '@adonisjs/core/services/router'
 import { middleware } from './kernel.js'
 
@@ -53,4 +54,15 @@ router
     router.delete('/:lessonId', [LessonsController, 'destroy'])
   })
   .prefix('lesson/:courseId')
+  .use(middleware.auth())
+
+router
+  .group(() => {
+    router.get('/', [CategoriesController, 'index'])
+    router.get('/:categoryId', [CategoriesController, 'show'])
+    router.post('/', [CategoriesController, 'store'])
+    router.put('/:categoryId', [CategoriesController, 'update'])
+    router.delete('/:categoryId', [CategoriesController, 'destroy'])
+  })
+  .prefix('category')
   .use(middleware.auth())
