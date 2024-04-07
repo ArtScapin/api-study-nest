@@ -54,7 +54,31 @@ export default class CategoriesController {
 
       await category.delete()
 
-      return response.ok('o')
+      return response.noContent()
+    } catch (error) {
+      return response.badRequest(error)
+    }
+  }
+
+  async link({ response, params }: HttpContext) {
+    try {
+      const category = await Category.findOrFail(params.categoryId)
+
+      await category.related('courses').attach([params.courseId])
+
+      return response.noContent()
+    } catch (error) {
+      return response.badRequest(error)
+    }
+  }
+
+  async unlink({ response, params }: HttpContext) {
+    try {
+      const category = await Category.findOrFail(params.categoryId)
+
+      await category.related('courses').detach([params.courseId])
+
+      return response.noContent()
     } catch (error) {
       return response.badRequest(error)
     }
