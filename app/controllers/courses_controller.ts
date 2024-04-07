@@ -1,7 +1,11 @@
 import AccessLog from '#models/access_log'
 import Course from '#models/course'
 import User from '#models/user'
-import { createCourseValidator, updateCourseValidator } from '#validators/course'
+import {
+  createCourseValidator,
+  createRatingValidator,
+  updateCourseValidator,
+} from '#validators/course'
 import { cuid } from '@adonisjs/core/helpers'
 import type { HttpContext } from '@adonisjs/core/http'
 import app from '@adonisjs/core/services/app'
@@ -112,6 +116,25 @@ export default class CoursesController {
       }
 
       await course.delete()
+
+      return response.noContent()
+    } catch (error) {
+      return response.badRequest(error)
+    }
+  }
+
+  async rating({ request, response, params, auth }: HttpContext) {
+    try {
+      const user = await auth.authenticate()
+      const course = await Course.findOrFail(params.courseId)
+      const payload = await request.validateUsing(createRatingValidator)
+
+      await course.related('ratings').sync(
+        {
+          [user.id]: payload,
+        },
+        false
+      )
 
       return response.noContent()
     } catch (error) {

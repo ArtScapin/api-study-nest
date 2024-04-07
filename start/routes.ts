@@ -41,6 +41,8 @@ router
     router.post('/', [CoursesController, 'store'])
     router.put('/:courseId', [CoursesController, 'update'])
     router.delete('/:courseId', [CoursesController, 'destroy'])
+
+    router.post('/rating/:courseId', [CoursesController, 'rating'])
   })
   .prefix('course')
   .use(middleware.auth())

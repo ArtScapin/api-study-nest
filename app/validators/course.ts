@@ -17,3 +17,9 @@ export const updateCourseValidator = vine.compile(
     visibility: vine.boolean().optional(),
   })
 )
+
+export const createRatingValidator = vine.compile(
+  vine.object({
+    rating: vine.number().max(5).min(0),
+  })
+)
