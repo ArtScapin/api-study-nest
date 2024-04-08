@@ -64,7 +64,6 @@ export default class ContentsController {
 
   async destroy({ response, params, auth }: HttpContext) {
     try {
-      console.log(params.contentId)
       const user = await auth.authenticate()
       const content = await Content.findOrFail(params.contentId)
       const lesson = await Lesson.findOrFail(content.lessonId)
