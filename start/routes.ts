@@ -23,18 +23,22 @@ router.get('/', () => {
 
 router.group(() => {
   router.post('/login', [SessionController, 'store'])
+  router.get('/session', [SessionController, 'show']).use(middleware.auth())
 })
 
 router
   .group(() => {
-    router.get('/', [UsersController, 'index'])
-    router.get('/:userId', [UsersController, 'show'])
     router.post('/', [UsersController, 'store'])
-    router.put('/:userId', [UsersController, 'update'])
-    router.delete('/:userId', [UsersController, 'destroy'])
+    router
+      .group(() => {
+        router.get('/', [UsersController, 'index'])
+        router.get('/:userId', [UsersController, 'show'])
+        router.put('/:userId', [UsersController, 'update'])
+        router.delete('/:userId', [UsersController, 'destroy'])
+      })
+      .use(middleware.auth())
   })
   .prefix('user')
-  .use(middleware.auth())
 
 router
   .group(() => {
