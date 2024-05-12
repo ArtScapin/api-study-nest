@@ -14,6 +14,7 @@ const LessonsController = () => import('#controllers/lessons_controller')
 const CategoriesController = () => import('#controllers/categories_controller')
 const CommentsController = () => import('#controllers/comments_controller')
 const ContentsController = () => import('#controllers/contents_controller')
+const FilesController = () => import('#controllers/files_controller')
 import router from '@adonisjs/core/services/router'
 import { middleware } from './kernel.js'
 
@@ -96,3 +97,5 @@ router
   })
   .prefix('content')
   .use(middleware.auth())
+
+router.get('/thumbnail/:id', [FilesController, 'thumbnail'])
