@@ -29,6 +29,12 @@ export default class Course extends BaseModel {
   })
   declare user: HasOne<typeof User>
 
+  @hasMany(() => Lesson, {
+    localKey: 'id',
+    foreignKey: 'courseId',
+  })
+  declare lessons: HasMany<typeof Lesson>
+
   @manyToMany(() => User, {
     pivotTable: 'course_ratings',
   })

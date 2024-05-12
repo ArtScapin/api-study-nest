@@ -44,6 +44,7 @@ export default class CoursesController {
           query.where('visibility', true).orWhere('userId', user.id)
         })
         .andWhere('id', params.courseId)
+        .preload('lessons')
         .firstOrFail()
 
       await AccessLog.create({ userId: user.id, courseId: course.id })
