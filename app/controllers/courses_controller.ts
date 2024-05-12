@@ -14,7 +14,21 @@ export default class CoursesController {
   async index({ response, auth }: HttpContext) {
     try {
       const user = await auth.authenticate()
-      const courses = await Course.query().where('visibility', true).orWhere('userId', user.id)
+      const courses = await Course.query()
+        .preload('user')
+        .where('visibility', true)
+        .orWhere('userId', user.id)
+
+      return response.ok(courses)
+    } catch (error) {
+      return response.badRequest(error)
+    }
+  }
+
+  async myCourses({ response, auth }: HttpContext) {
+    try {
+      const user = await auth.authenticate()
+      const courses = await Course.query().where('userId', user.id)
 
       return response.ok(courses)
     } catch (error) {

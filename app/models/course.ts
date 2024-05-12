@@ -1,7 +1,8 @@
 import { DateTime } from 'luxon'
-import { BaseModel, column, hasOne, manyToMany } from '@adonisjs/lucid/orm'
+import { BaseModel, column, hasMany, hasOne, manyToMany } from '@adonisjs/lucid/orm'
 import User from './user.js'
-import type { HasOne, ManyToMany } from '@adonisjs/lucid/types/relations'
+import type { HasMany, HasOne, ManyToMany } from '@adonisjs/lucid/types/relations'
+import Lesson from './lesson.js'
 
 export default class Course extends BaseModel {
   @column({ isPrimary: true })
@@ -22,7 +23,10 @@ export default class Course extends BaseModel {
   @column()
   declare visibility: boolean
 
-  @hasOne(() => User)
+  @hasOne(() => User, {
+    localKey: 'userId',
+    foreignKey: 'id',
+  })
   declare user: HasOne<typeof User>
 
   @manyToMany(() => User, {

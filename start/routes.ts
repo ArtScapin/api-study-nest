@@ -43,6 +43,7 @@ router
 router
   .group(() => {
     router.get('/', [CoursesController, 'index'])
+    router.get('/my', [CoursesController, 'myCourses'])
     router.get('/:courseId', [CoursesController, 'show'])
     router.post('/', [CoursesController, 'store'])
     router.put('/:courseId', [CoursesController, 'update'])
