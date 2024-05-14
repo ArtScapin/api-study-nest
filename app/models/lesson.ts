@@ -1,5 +1,7 @@
 import { DateTime } from 'luxon'
-import { BaseModel, column } from '@adonisjs/lucid/orm'
+import { BaseModel, column, hasMany } from '@adonisjs/lucid/orm'
+import type { HasMany } from '@adonisjs/lucid/types/relations'
+import Content from './content.js'
 
 export default class Lesson extends BaseModel {
   @column({ isPrimary: true })
@@ -19,6 +21,12 @@ export default class Lesson extends BaseModel {
 
   @column({ serializeAs: null })
   declare courseId: number
+
+  @hasMany(() => Content, {
+    localKey: 'id',
+    foreignKey: 'lessonId',
+  })
+  declare contents: HasMany<typeof Content>
 
   @column.dateTime({ autoCreate: true })
   declare createdAt: DateTime

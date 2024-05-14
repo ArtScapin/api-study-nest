@@ -35,6 +35,7 @@ export default class LessonsController {
       const lesson = await Lesson.query()
         .where('id', params.lessonId)
         .andWhere('courseId', course.id)
+        .preload('contents')
         .firstOrFail()
 
       await AccessLog.create({ userId: user.id, courseId: course.id, lessonId: lesson.id })
