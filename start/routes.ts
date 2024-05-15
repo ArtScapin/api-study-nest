@@ -74,8 +74,8 @@ router
     router.put('/:categoryId', [CategoriesController, 'update'])
     router.delete('/:categoryId', [CategoriesController, 'destroy'])
 
-    router.post('/link/:categoryId/:courseId', [CategoriesController, 'link'])
-    router.delete('/link/:categoryId/:courseId', [CategoriesController, 'unlink'])
+    router.post('/link/:courseId/:categoryId', [CategoriesController, 'link'])
+    router.delete('/link/:courseId/:categoryId', [CategoriesController, 'unlink'])
   })
   .prefix('category')
   .use(middleware.auth())
