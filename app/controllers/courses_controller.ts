@@ -46,6 +46,7 @@ export default class CoursesController {
         .andWhere('id', params.courseId)
         .preload('lessons')
         .preload('categories')
+        .preload('user')
         .firstOrFail()
 
       await AccessLog.create({ userId: user.id, courseId: course.id })
