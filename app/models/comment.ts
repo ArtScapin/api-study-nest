@@ -1,5 +1,7 @@
 import { DateTime } from 'luxon'
-import { BaseModel, column } from '@adonisjs/lucid/orm'
+import { BaseModel, column, hasOne } from '@adonisjs/lucid/orm'
+import type { HasOne } from '@adonisjs/lucid/types/relations'
+import User from './user.js'
 
 export default class Comment extends BaseModel {
   static table = 'lesson_comments'
@@ -15,6 +17,12 @@ export default class Comment extends BaseModel {
 
   @column()
   declare text: string
+
+  @hasOne(() => User, {
+    localKey: 'userId',
+    foreignKey: 'id'
+  })
+  declare user: HasOne<typeof User>
 
   @column.dateTime({ autoCreate: true })
   declare createdAt: DateTime
