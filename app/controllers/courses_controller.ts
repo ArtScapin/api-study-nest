@@ -16,6 +16,7 @@ export default class CoursesController {
       const user = await auth.authenticate()
       const courses = await Course.query()
         .preload('user')
+        .preload('lessons')
         .where('visibility', true)
         .orWhere('userId', user.id)
 
