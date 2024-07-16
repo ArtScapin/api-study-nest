@@ -36,7 +36,7 @@ export default class LessonsController {
         .where('id', params.lessonId)
         .andWhere('courseId', course.id)
         .preload('contents')
-        .preload('comments', (comment) => comment.preload('user'))
+        .preload('comments', (comment) => comment.orderBy('createdAt', 'desc').preload('user'))
         .firstOrFail()
 
       await AccessLog.create({ userId: user.id, courseId: course.id, lessonId: lesson.id })

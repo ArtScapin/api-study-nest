@@ -42,6 +42,8 @@ export default class CommentsController {
         text,
       })
 
+      await comment.load('user')
+
       return response.ok(comment)
     } catch (error) {
       return response.badRequest(error)
